@@ -1,12 +1,9 @@
-import pandas as pd
 import os
 from groq import Groq, AsyncGroq
 import json
-import sys
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
-from aiocache import cached
 
 app = FastAPI()
 load_dotenv()
