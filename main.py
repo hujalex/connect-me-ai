@@ -4,6 +4,7 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from typing import Union
 
 app = FastAPI()
 load_dotenv()
@@ -11,7 +12,7 @@ load_dotenv()
 
 
 class Item(BaseModel):
-    message : str | None = None
+    message : Union[str, None] = None
 
 
 @app.post("/process-message")
