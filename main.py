@@ -19,7 +19,7 @@ async def read_item(message: Item):
 
     try:
 
-        response = call_Groq(message.message)
+        response = await call_Groq(message.message)
         return response
 
     except Exception as e:
@@ -33,15 +33,15 @@ with open('./data/handbook.json', 'r') as file:
 with open('./data/tutorresources.json', 'r') as file:
     tutor_resources_data = json.load(file);
 
-client = Groq(
-    api_key=os.getenv("GROQ_API_KEY"),
+client = AsyncGroq(
+    api_key=os.environ.get("GROQ_API_KEY"),
 )
 
 
 # @cached(ttl = 3600)
-def call_Groq(query : str) -> str:
+async def call_Groq(query : str) -> str:
     try:
-        chat_completion = client.chat.completions.create(
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {
                     "role": "system",
