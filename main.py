@@ -4,7 +4,6 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
-from typing import Union
 
 app = FastAPI()
 load_dotenv()
@@ -12,7 +11,7 @@ load_dotenv()
 
 
 class Item(BaseModel):
-    message : Union[str, None] = None
+    message : str
 
 
 @app.post("/process-message")
@@ -20,7 +19,7 @@ async def read_item(message: Item):
 
     try:
 
-        response = await call_Groq(message)
+        response = call_Groq(message.message)
         return response
 
     except Exception as e:
@@ -34,15 +33,15 @@ with open('./data/handbook.json', 'r') as file:
 with open('./data/tutorresources.json', 'r') as file:
     tutor_resources_data = json.load(file);
 
-client = AsyncGroq(
+client = Groq(
     api_key=os.getenv("GROQ_API_KEY"),
 )
 
 
 # @cached(ttl = 3600)
-async def call_Groq(query : str) -> str:
+def call_Groq(query : str) -> str:
     try:
-        chat_completion = await client.chat.completions.create(
+        chat_completion = client.chat.completions.create(
             messages=[
                 {
                     "role": "system",
@@ -61,7 +60,7 @@ async def call_Groq(query : str) -> str:
                     "content": f"{query}",
                 },
             ],
-            model="llama-3.3-70b-Versatile",
+            model="llama3-8b-8192",
         )
         return chat_completion.choices[0].message.content
     except Exception as e:
