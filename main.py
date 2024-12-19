@@ -4,6 +4,7 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from typing import Union
 
 app = FastAPI()
 load_dotenv()
@@ -34,7 +35,7 @@ with open('./data/tutorresources.json', 'r') as file:
     tutor_resources_data = json.load(file);
 
 client = AsyncGroq(
-    api_key=os.environ.get("GROQ_API_KEY"),
+    api_key=os.getenv("GROQ_API_KEY"),
 )
 
 
