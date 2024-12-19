@@ -59,7 +59,7 @@ async def call_Groq(query : str) -> str:
                 {
                     "role": "system",
                     "content": "Keep the response under 2000 words"
-                }
+                },
                 {
                     "role": "user",
                     "content": f"{query}",
