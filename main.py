@@ -57,6 +57,10 @@ async def call_Groq(query : str) -> str:
                     "content" : "Always provide the CONNECT_ME_HANDBOOK link if necessary to question"
                 },
                 {
+                    "role": "system",
+                    "content": "Keep the response under 2000 words"
+                }
+                {
                     "role": "user",
                     "content": f"{query}",
                 },
@@ -66,7 +70,8 @@ async def call_Groq(query : str) -> str:
         return chat_completion.choices[0].message.content
     except Exception as e:
         print("GROQ EXCEPTION")
-        raise HTTPException(status_code = 500, detail = f"Error in Groq call {e}")
+        # raise HTTPException(status_code = 500, detail = f"Error in Groq call {e}")
+        return "Please wait for a moment before sending another prompt"
     
 
 
